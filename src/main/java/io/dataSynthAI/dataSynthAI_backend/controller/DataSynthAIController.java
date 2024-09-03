@@ -25,6 +25,7 @@ public class DataSynthAIController {
         this.dataSynthCustomValidationService = dataSynthCustomValidationService;
     }
 
+    @CrossOrigin
     @PostMapping("/validateAndProcess")
     public ResponseEntity<Set<String>> validateAndProcess(@RequestBody DataSynthModel dataSynthModel) {
         log.info("Inside DataSynthAIController : validateAndProcess()");
@@ -48,6 +49,7 @@ public class DataSynthAIController {
 
     @GetMapping("/test")
     public String test(){
+        //Set<String> errors = dataSynthCustomValidationService.validateDataSynthSchema();
         return HttpStatus.OK.toString();
     }
 }

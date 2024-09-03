@@ -54,8 +54,12 @@ public class DataSynthUtils {
     }
 
     public static String getErrorMessage(String message){
-        if(StringUtils.isNotBlank(message)){
-
+        if(StringUtils.isNotBlank(message) && StringUtils.containsIgnoreCase(message, "$.Columns[")){
+            String columnStr = message.substring(message.indexOf(".") + 1, message.lastIndexOf("."));
+            String errMsg = message.substring(message.lastIndexOf(".") + 1);
+            int colVal = Integer.parseInt(columnStr.substring(columnStr.indexOf("[") + 1, columnStr.lastIndexOf("]")));
+            colVal = colVal + 1;
+            return errMsg + " for column num " + colVal;
         }
         return message;
     }
