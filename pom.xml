@@ -11,7 +11,7 @@
 	<groupId>io.dataSynthAI</groupId>
 	<artifactId>1</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>dataSynthAI-backend</name>
+	<name>DataSynth-Input-Adaptor</name>
 	<description>Backend Project for DataSynthAI</description>
 
 	<url/>

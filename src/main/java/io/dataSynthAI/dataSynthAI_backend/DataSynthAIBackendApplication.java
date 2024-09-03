@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-public class DataSynthAiBackendApplication {
+public class DataSynthAIBackendApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DataSynthAiBackendApplication.class, args);
+		SpringApplication.run(DataSynthAIBackendApplication.class, args);
 	}
 
 }

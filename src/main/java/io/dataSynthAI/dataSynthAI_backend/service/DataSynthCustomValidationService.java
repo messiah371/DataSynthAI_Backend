@@ -1,13 +1,17 @@
 package io.dataSynthAI.dataSynthAI_backend.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.networknt.schema.ValidationMessage;
 import io.dataSynthAI.dataSynthAI_backend.config.SchemaConfig;
+import org.json.JSONException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -22,10 +26,14 @@ public class DataSynthCustomValidationService {
         this.schemaConfig = schemaConfig;
     }
 
-    public Set<String> validateDataSynthSchema(){
+    public Set<String> validateDataSynthSchema(String json){
         Set<String> errors = new HashSet<>();
         try {
-            JsonNode jsonNode = schemaConfig.getJsonNodeDataSynthInput();
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(json);
+            if(Objects.isNull(jsonNode)){
+                throw new JSONException("Unable to read input json file data");
+            }
             Set<ValidationMessage> schemaValidationMessages = schemaConfig.getDataSynthSchema().validate(jsonNode);
 
             // Collect validation errors from the schema validator
@@ -41,7 +49,7 @@ public class DataSynthCustomValidationService {
                 }
             }
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             errors.add("Failed to parse JSON: " + e.getMessage());
         }
         return errors;

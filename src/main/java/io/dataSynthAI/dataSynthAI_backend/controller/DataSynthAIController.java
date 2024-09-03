@@ -1,14 +1,14 @@
 package io.dataSynthAI.dataSynthAI_backend.controller;
 
-import com.networknt.schema.ValidationMessage;
+import io.dataSynthAI.dataSynthAI_backend.model.DataSynthModel;
 import io.dataSynthAI.dataSynthAI_backend.service.DataSynthCustomValidationService;
-import io.dataSynthAI.dataSynthAI_backend.service.DataSynthReqValidationService;
+import io.dataSynthAI.dataSynthAI_backend.service.DataSynthRequestService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.Set;
 
 
@@ -16,31 +16,33 @@ import java.util.Set;
 @Slf4j
 @RequestMapping("/dataSynth")
 public class DataSynthAIController {
-    private final DataSynthReqValidationService dataSynthReqValidationService;
+    private final DataSynthRequestService dataSynthRequestService;
 
     private final DataSynthCustomValidationService dataSynthCustomValidationService;
-    public DataSynthAIController(DataSynthReqValidationService dataSynthReqValidationService,
+    public DataSynthAIController(DataSynthRequestService dataSynthRequestService,
                                  DataSynthCustomValidationService dataSynthCustomValidationService){
-        this.dataSynthReqValidationService = dataSynthReqValidationService;
+        this.dataSynthRequestService = dataSynthRequestService;
         this.dataSynthCustomValidationService = dataSynthCustomValidationService;
     }
 
-    /*@PostMapping("/validateJson")
-    public Set<ValidationMessage> validateJson(@RequestBody String json) throws IOException {
-        return dataSynthReqValidationService.validateJson(json);
-    }*/
-
-    @GetMapping("/validateSchema")
-    public ResponseEntity<Set<String>> checkDataSynthSchema() throws IOException {
-        log.info("Inside DataSynthAIController : checkDataSynthSchema() ");
-        //dataSynthReqValidationService.inputSchemaLevelValidate();
-        //dataSynthReqValidationService.validateJson("");
-        //jsonCustomValidationService.validateJson("");
-        Set<String> err = dataSynthCustomValidationService.validateDataSynthSchema();
-        if(err.isEmpty()){
+    @PostMapping("/validateAndProcess")
+    public ResponseEntity<Set<String>> validateAndProcess(@RequestBody DataSynthModel dataSynthModel) {
+        log.info("Inside DataSynthAIController : validateAndProcess()");
+        try{
+            boolean isValidationEligible = dataSynthRequestService.isValidationEligible(dataSynthModel.getFileName());
+            if(isValidationEligible){
+                Set<String> err = dataSynthCustomValidationService.validateDataSynthSchema(dataSynthModel.getFileData());
+                if(err.isEmpty()){
+                    return new ResponseEntity<>(HttpStatus.OK);
+                }else{
+                    return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+                }
+            }else{
+                dataSynthRequestService.processDataSynthRequest(dataSynthModel);
+            }
             return new ResponseEntity<>(HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+        }catch (Exception ex){
+            return new ResponseEntity<>(Set.of(ex.getMessage()), HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 
