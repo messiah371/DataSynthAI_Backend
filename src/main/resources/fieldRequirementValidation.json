@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "http://dataSynth/fieldRequirementValidation.json",
+  "title": "Root Schema",
+  "type": "object",
+  "default": {},
+  "required": [
+    "tradeId",
+    "source",
+    "lei",
+    "someArrayField"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "tradeId": {
+      "title": "The tradeId Schema",
+      "type": "integer",
+      "default": 0,
+      "examples": [
+        1
+      ]
+    },
+    "source": {
+      "title": "The source Schema",
+      "type": "string",
+      "default": "",
+      "examples": [
+        "BBB"
+      ]
+    },
+    "lei": {
+      "title": "The lei Schema",
+      "type": "string",
+      "default": "",
+      "examples": [
+        "XYLAGD128"
+      ]
+    },
+    "someArrayField": {
+      "title": "The someArrayField Schema",
+      "type": "array",
+      "default": [],
+      "additionalItems": true,
+      "items": {
+        "title": "A Schema",
+        "type": "object",
+        "default": {},
+        "required": [
+          "aLei",
+          "bLei"
+        ],
+        "additionalProperties": true,
+        "properties": {
+          "aLei": {
+            "title": "The aLei Schema",
+            "type": "string",
+            "default": "",
+            "examples": [
+              "SGJHE89833 HSHH"
+            ]
+          },
+          "bLei": {
+            "title": "The bLei Schema",
+            "type": "string",
+            "default": "",
+            "examples": [
+              "HDYGBDJ3467 KHHJ"
+            ]
+          }
+        },
+        "examples": [{
+          "aLei": "SGJHE89833 HSHH",
+          "bLei": "HDYGBDJ3467 KHHJ"
+        }]
+      },
+      "examples": [
+        [{
+          "aLei": "SGJHE89833 HSHH",
+          "bLei": "HDYGBDJ3467 KHHJ"
+        }]
+      ]
+    }
+  },
+  "examples": [{
+    "tradeId": 1,
+    "source": "BBB",
+    "lei": "XYLAGD128",
+    "someArrayField": [{
+      "aLei": "SGJHE89833 HSHH",
+      "bLei": "HDYGBDJ3467 KHHJ"
+    }]
+  }]
+}

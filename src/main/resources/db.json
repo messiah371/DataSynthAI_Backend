@@ -1,0 +1,14 @@
+{
+  "fieldRequirementValidation": {
+    "tradeId": 1,
+    "source": "BBB",
+    "lei": "XYLAGD128",
+    "someArrayField": [
+      {
+        "aLei": "SGJHE89833 HSHH",
+        "bLei": "HDYGBDJ3467 KHHJ"
+      }
+    ],
+    "asdf": "jjj"
+  }
+}

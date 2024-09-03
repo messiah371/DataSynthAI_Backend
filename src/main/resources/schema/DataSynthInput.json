@@ -1,0 +1,42 @@
+{
+  "Columns": [
+    {
+      "column_name": "UserID",
+      "datatype": "integer",
+      "data_category": "numeric",
+      "possible_values": [
+        "1",
+        "2",
+        "3"
+      ],
+      "conditions": {
+        "range": "1-1000",
+        "pattern": "^\\d+$",
+        "uniqueness": true
+      }
+    },
+    {
+      "column_name": "Username",
+      "datatype": "string",
+      "data_category": "categorical",
+      "possible_values": [
+        "Alice",
+        "Bob",
+        "Charlie"
+      ],
+      "conditions": {
+        "pattern": "^[a-zA-Z0-9_]{3,20}$",
+        "uniqueness": true
+      }
+    },
+    {
+      "column_name": "Email",
+      "datatype": "string",
+      "data_category": "categorical",
+      "possible_values": [],
+      "conditions": {
+        "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+      }
+    }
+  ]
+}
